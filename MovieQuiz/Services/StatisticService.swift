@@ -72,7 +72,6 @@ final class StatisticServiceImplementation: StatisticService {
     }
 
     
-    
     var correct: Int {
         get {
             userDefaults.integer(forKey: Keys.correct.rawValue)
