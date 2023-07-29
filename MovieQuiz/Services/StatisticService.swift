@@ -70,7 +70,7 @@ final class StatisticServiceImplementation: StatisticService {
             }
         }
     }
-
+    
     
     var correct: Int {
         get {
