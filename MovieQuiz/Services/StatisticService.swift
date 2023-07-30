@@ -15,6 +15,7 @@ protocol StatisticService {
 }
 
 
+
 struct GameRecord: Codable, Comparable {
     let correct: Int
     let total: Int
