@@ -15,6 +15,7 @@ protocol StatisticService {
 }
 
 
+
 struct GameRecord: Codable, Comparable {
     let correct: Int
     let total: Int
@@ -70,7 +71,7 @@ final class StatisticServiceImplementation: StatisticService {
             }
         }
     }
-
+    
     
     var correct: Int {
         get {
