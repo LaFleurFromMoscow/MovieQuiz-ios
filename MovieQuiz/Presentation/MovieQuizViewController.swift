@@ -15,6 +15,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     override func viewDidLoad() {
 
         super.viewDidLoad()
+        presenter.viewController = self
         showNextQuestionOrResults()
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         alertPresenter = AlertPresenterImpl(viewController: self)
@@ -68,25 +69,15 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     // конец активити индикатора
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let givenAnswer = false
-        presenter.switchToNextQuestion()
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        presenter.currentQuestion = currentQuestion
+        presenter.noButtonClicked()
     }
     
     
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let givenAnswer = true
-        presenter.switchToNextQuestion()
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        presenter.currentQuestion = currentQuestion
+        presenter.yesButtonClicked()
         
     }
     
@@ -132,7 +123,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
         
         let totalPlaysCountLine = "Количество сыгранных квизов: \(statisticService.gamesCount)"
-        let currentGameResultLine = "Ваш результат: \(correctAnswers)\\\("10")" // было questionsAmount
+        let currentGameResultLine = "Ваш результат: \(correctAnswers)\\\(presenter.questionsAmount)" // было questionsAmount
         let bestGameInfoLine = "Рекорд: \(bestGame.correct)\\\(bestGame.total)"
         + " (\(bestGame.date.dateTimeString))"
         let averageAccuracyLine = "Средняя точность: \(String(format: "%2.f", statisticService.totalAccuracy))%"
@@ -149,7 +140,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     
-    private func showAnswerResult(isCorrect: Bool) {
+        func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
             correctAnswers += 1
         }
